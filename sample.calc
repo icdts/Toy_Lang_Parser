@@ -1,0 +1,11 @@
+n=10; k=4;
+i=1; p=1;
+t=1; b=1;
+d='wat''s that';
+while(i<=k) {
+  t = t * ((n - k) + i);
+  b = b * i;
+  i = i + 1;
+};
+p = t / b;
+print p;

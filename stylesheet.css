@@ -1,0 +1,70 @@
+/* modified from example webpage we were given */
+
+/* dark brown background
+   off-white font color */
+body
+{
+	color: #FFFFD0;
+	background-color: #30301F;
+	font-family: sans-serif,arial,serif;
+}
+
+/* link stuff:
+   lavender */
+a:link 
+{ 
+	color: #CC66FF;
+}
+
+/* bright red */
+a:visited 
+{ 
+	color: #FF3300;
+}
+
+/* white on black */
+a:hover 
+{ 
+	color: #FFFFFF;
+	background-color: #000000;
+	text-decoration: none;
+}
+
+/* bright red */
+a:active 
+{ 
+	color: #FF3300;
+}
+
+
+/* Syntax highliting:
+   light blue */
+.COMMENT {
+	color: #3355FF;
+}
+
+/* fuschia */
+.NUMBER {
+	color:	#FF33FF;
+}
+
+/* off-white */
+.OPERATOR {
+	color:	#FFFFD0;
+}
+
+/* light cyan */
+.IDENTIFIER {
+	color:#55FFFF;
+}
+
+/* green */
+.STRINGLITERAL {
+	color:	#66FF33;
+}
+
+/* orange */
+.KEYWORD {
+	color: #FFAA55;
+	font-weight: bold;
+}
