@@ -22,7 +22,7 @@ number [\-+]?[0-9]+(.[0-9]+)?
 %}
 ^.*\n                   { nline++; output << "<tr><td class=\"line_number\"><a name=\"" << nline << "\">" << nline << "</a></td><td>"; REJECT; }
 '([^']|'')*'            { output << "<span class=\"STRINGLITERAL\">" << yytext << "</span>"; }
-"/*"[^"*/"]*"*/"        { output << "<span class=\"COMMENT\">" << yytext << "</span>"; }
+"/*"[^"*/"]*"*/"        { output << "<tr><td><span class=\"COMMENT\">" << yytext << "</span>"; }
 "//"[^\n]*              { output << "<span class=\"COMMENT\">" << yytext << "</span>"; }
 {number}                { output << "<span class=\"NUMBER\">" << yytext << "</span>"; }
 [a-zA-Z][a-zA-Z0-9]*    { 
