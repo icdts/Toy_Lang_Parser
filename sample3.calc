@@ -1,0 +1,22 @@
+name = 'Robert Nolan';
+purpose = 'Doin'' what I''m told';
+
+/* Test of the comment
+
+wheee
+            more stuff;wifaojf
+            */
+a = 2;
+b = 1;
+c = 1;
+while( a < 100 ){
+    tmp = a;
+    a = b + c;
+    b = c;
+    c = tmp;
+}
+//Different comments
+
+print name;
+print purpose;
+print a;

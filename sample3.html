@@ -1,0 +1,146 @@
+<html>
+  <head>
+  <style type="text/css">
+    /* modified from example webpage we were given */
+
+/* dark brown background
+   off-white font color */
+body
+{
+	color: #FFFFD0;
+	background-color: #30301F;
+	font-family: sans-serif,arial,serif;
+}
+
+/* link stuff:
+   lavender */
+a:link 
+{ 
+	color: #CC66FF;
+}
+
+/* bright red */
+a:visited 
+{ 
+	color: #FF3300;
+}
+
+/* white on black */
+a:hover 
+{ 
+	color: #FFFFFF;
+	background-color: #000000;
+	text-decoration: none;
+}
+
+/* bright red */
+a:active 
+{ 
+	color: #FF3300;
+}
+
+
+/* Syntax highliting:
+   light blue */
+.COMMENT {
+	color: #3355FF;
+}
+
+/* fuschia */
+.NUMBER {
+	color:	#FF33FF;
+}
+
+/* off-white */
+.OPERATOR {
+	color:	#FFFFD0;
+}
+
+/* light cyan */
+.IDENTIFIER {
+	color:#55FFFF;
+}
+
+/* green */
+.STRINGLITERAL {
+	color:	#66FF33;
+}
+
+/* orange */
+.KEYWORD {
+	color: #FFAA55;
+	font-weight: bold;
+}
+
+  </style>
+  </head>
+  <body>
+    <div class="header">
+      <p><b>Parsed file: </b>sample3.calc</p>
+      <p><b>Parser written by: </b>Robert Nolan</p>
+      <p><b>Parsed at time: </b>Tue Sep 27 20:28:01 2011
+</p>
+    </div>
+    <table class="code">
+      <tr><th>#</th><th>Code</th></tr>
+<tr><td class="line_number"><a name="1">1</a></td><td><span class="IDENTIFIER">name</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="STRINGLITERAL">'Robert Nolan'</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="2">2</a></td><td><span class="IDENTIFIER">purpose</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="STRINGLITERAL">'Doin'' what I''m told'</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="3">3</a></td><td></td></tr>
+<span class="COMMENT">/* Test of the comment
+
+wheee
+            more stuff;wifaojf
+            */</span></td></tr>
+<tr><td class="line_number"><a name="4">4</a></td><td><span class="IDENTIFIER">a</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="NUMBER">2</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="5">5</a></td><td><span class="IDENTIFIER">b</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="NUMBER">1</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="6">6</a></td><td><span class="IDENTIFIER">c</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="NUMBER">1</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="7">7</a></td><td><span class="IDENTIFIER">while</span><span class="OPERATOR">(</span>&nbsp;<span class="IDENTIFIER">a</span>&nbsp;<span class="OPERATOR"><</span>&nbsp;<span class="NUMBER">100</span>&nbsp;<span class="OPERATOR">)</span><span class="OPERATOR">{</span></td></tr>
+<tr><td class="line_number"><a name="8">8</a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span class="IDENTIFIER">tmp</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="IDENTIFIER">a</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="9">9</a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span class="IDENTIFIER">a</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="IDENTIFIER">b</span>&nbsp;<span class="OPERATOR">+</span>&nbsp;<span class="IDENTIFIER">c</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="10">10</a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span class="IDENTIFIER">b</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="IDENTIFIER">c</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="11">11</a></td><td>&nbsp;&nbsp;&nbsp;&nbsp;<span class="IDENTIFIER">c</span>&nbsp;<span class="OPERATOR">=</span>&nbsp;<span class="IDENTIFIER">tmp</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="12">12</a></td><td><span class="OPERATOR">}</span></td></tr>
+<tr><td class="line_number"><a name="13">13</a></td><td><span class="COMMENT">//Different comments</span></td></tr>
+<tr><td class="line_number"><a name="14">14</a></td><td></td></tr>
+<tr><td class="line_number"><a name="15">15</a></td><td><span class="IDENTIFIER">print</span>&nbsp;<span class="IDENTIFIER">name</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="16">16</a></td><td><span class="IDENTIFIER">print</span>&nbsp;<span class="IDENTIFIER">purpose</span><span class="OPERATOR">;</span></td></tr>
+<tr><td class="line_number"><a name="17">17</a></td><td><span class="IDENTIFIER">print</span>&nbsp;<span class="IDENTIFIER">a</span><span class="OPERATOR">;</span></td></tr>
+0
+    </table>
+    <table class="var_list">
+      <tr><th>Variable</th><th>Line Numbers</th></tr>
+      <tr>
+        <td>a</td>
+        <td><a href="#4">4,</a> <a href="#7">7,</a> <a href="#8">8,</a> <a href="#9">9,</a> <a href="#17">17,</a> </td>
+      </tr>
+      <tr>
+        <td>b</td>
+        <td><a href="#5">5,</a> <a href="#9">9,</a> <a href="#10">10,</a> </td>
+      </tr>
+      <tr>
+        <td>c</td>
+        <td><a href="#6">6,</a> <a href="#9">9,</a> <a href="#10">10,</a> <a href="#11">11,</a> </td>
+      </tr>
+      <tr>
+        <td>name</td>
+        <td><a href="#1">1,</a> <a href="#15">15,</a> </td>
+      </tr>
+      <tr>
+        <td>print</td>
+        <td><a href="#15">15,</a> <a href="#16">16,</a> <a href="#17">17,</a> </td>
+      </tr>
+      <tr>
+        <td>purpose</td>
+        <td><a href="#2">2,</a> <a href="#16">16,</a> </td>
+      </tr>
+      <tr>
+        <td>tmp</td>
+        <td><a href="#8">8,</a> <a href="#11">11,</a> </td>
+      </tr>
+      <tr>
+        <td>while</td>
+        <td><a href="#7">7,</a> </td>
+      </tr>
+    </table>
+  </body>
+</html>
