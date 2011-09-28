@@ -563,8 +563,8 @@ char *yytext_ptr;
     #include <set>
     using namespace std;
 
-    map<string, set<int> > var_list;
-    set<string> key_list;
+    stringstream output;  //holds html until we are ready to write to file
+    map<string, set<int> > var_list; //variable index
 #line 569 "lex.yy.c"
 
 #define INITIAL 0
@@ -862,66 +862,65 @@ case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
 #line 23 "parser.l"
-{ nline++; cout << "<tr><td class=\"line_number\"><a name=\"" << nline << "\">" << nline << "</a></td><td>"; REJECT; }
+{ nline++; output << "<tr><td class=\"line_number\"><a name=\"" << nline << "\">" << nline << "</a></td><td>"; REJECT; }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
 #line 24 "parser.l"
-{ cout << "<span class=\"STRINGLITERAL\">" << yytext << "</span>"; }
+{ output << "<span class=\"STRINGLITERAL\">" << yytext << "</span>"; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
 #line 25 "parser.l"
-{ cout << "<span class=\"COMMENT\">" << yytext << "</span>"; }
+{ output << "<span class=\"COMMENT\">" << yytext << "</span>"; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
 #line 26 "parser.l"
-{ cout << "<span class=\"COMMENT\">" << yytext << "</span>"; }
+{ output << "<span class=\"COMMENT\">" << yytext << "</span>"; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
 #line 27 "parser.l"
-{ cout << "<span class=\"NUMBER\">" << yytext << "</span>"; }
+{ output << "<span class=\"NUMBER\">" << yytext << "</span>"; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
 #line 28 "parser.l"
 { 
-                            cout << "<span class=\"IDENTIFIER\">" << yytext << "</span>";
+                            output << "<span class=\"IDENTIFIER\">" << yytext << "</span>";
                             var_list[yytext].insert(nline);
-                            key_list.insert(yytext);
                         }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 33 "parser.l"
-{ cout << "<span class=\"OPERATOR\">" << yytext << "</span>"; }
+#line 32 "parser.l"
+{ output << "<span class=\"OPERATOR\">" << yytext << "</span>"; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 34 "parser.l"
-{ cout << "&nbsp;"; }
+#line 33 "parser.l"
+{ output << "&nbsp;"; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 35 "parser.l"
-{ cout << "&nbsp;&nbsp;&nbsp;&nbsp;"; }
+#line 34 "parser.l"
+{ output << "&nbsp;&nbsp;&nbsp;&nbsp;"; }
 	YY_BREAK
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 36 "parser.l"
-{ cout << "</td></tr>" << endl; }
+#line 35 "parser.l"
+{ output << "</td></tr>" << endl; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 37 "parser.l"
+#line 36 "parser.l"
 ECHO;
 	YY_BREAK
-#line 925 "lex.yy.c"
+#line 924 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1907,7 +1906,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 37 "parser.l"
+#line 36 "parser.l"
 
 
 
@@ -1924,7 +1923,7 @@ int main(int argc, char *argv[]){
 
         // make sure it's valid:
         if (!myfile) {
-            cout << "I can't open " << argv[0] << "!" << endl;
+            output << "I can't open " << argv[1] << "!" << endl;
             return -1;
         }
         // set lex to read from it instead of defaulting to STDIN:
@@ -1934,40 +1933,55 @@ int main(int argc, char *argv[]){
         ifstream t("stylesheet.css");
         string stylesheet((std::istreambuf_iterator<char>(t)),std::istreambuf_iterator<char>());
 
-        cout << "<html>" << endl;
-        cout << "  <head>" << endl;
-        cout << "  <style type=\"text/css\">" << endl;
-        cout << "    " << stylesheet << endl;
-        cout << "  </style>" << endl;
-        cout << "  </head>" << endl;
-        cout << "  <body>" << endl;
-        cout << "    <div class=\"header\">" << endl;
-        cout << "      <p><b>Parser written by: </b>Robert Nolan</p>" << endl;
-        cout << "      <p><b>Parsed at time: </b>" << ctime(&current_time) << "</p>" << endl;
-        cout << "    </div>" << endl;
-        cout << "    <table class=\"code\">" << endl;
-        cout << "      <tr><th>#</th><th>Code</th></tr>" << endl;
-        cout << yylex() << endl;
-        cout << "    </table>" << endl;
-        cout << "    <table class=\"var_list\">" << endl;
-        cout << "      <tr><th>Variable</th><th>Line Numbers</th></tr>" << endl;
+        //Create html
+        output << "<html>" << endl;
+        output << "  <head>" << endl;
+        output << "  <style type=\"text/css\">" << endl;
+        output << "    " << stylesheet << endl;
+        output << "  </style>" << endl;
+        output << "  </head>" << endl;
+        output << "  <body>" << endl;
+        output << "    <div class=\"header\">" << endl;
+        output << "      <p><b>Parsed file: </b>" << argv[0] << "</p>" << endl;
+        output << "      <p><b>Parser written by: </b>Robert Nolan</p>" << endl;
+        output << "      <p><b>Parsed at time: </b>" << ctime(&current_time) << "</p>" << endl;
+        output << "    </div>" << endl;
+        output << "    <table class=\"code\">" << endl;
+        output << "      <tr><th>#</th><th>Code</th></tr>" << endl;
+        output << yylex() << endl;
+        output << "    </table>" << endl;
+        output << "    <table class=\"var_list\">" << endl;
+        output << "      <tr><th>Variable</th><th>Line Numbers</th></tr>" << endl;
         
         for( map<string,set<int> >::iterator iter = var_list.begin(); iter != var_list.end(); iter++ ){
-            cout << "      <tr>" << endl;
-            cout << "        <td>" << iter->first << "</td>" << endl;
-            cout << "        <td>";
+            output << "      <tr>" << endl;
+            output << "        <td>" << iter->first << "</td>" << endl;
+            output << "        <td>";
             for(set<int>::iterator j = iter->second.begin(); j != iter->second.end(); j++){
-                cout << "<a href=\"#" << *j << "\">" << *j << ",</a> " << ",";
+                output << "<a href=\"#" << *j << "\">" << *j << ",</a> ";
             }
-            cout << "</td>" << endl;
-            cout << "      </tr>" << endl;
+            output << "</td>" << endl;
+            output << "      </tr>" << endl;
         }
-        cout << "    </table>" << endl;
-        cout << "  </body>" << endl;
-        cout << "</html>" << endl;
+        output << "    </table>" << endl;
+        output << "  </body>" << endl;
+        output << "</html>" << endl;
+
+        //Finally write to output file.
+        string output_name(argv[1]);
+
+        output_name = output_name.substr(0, output_name.find_last_of(".") + 1);
+        output_name += "html";
+
+        cout << "Outputing to " << output_name << endl;
+        ofstream outFile;
+        outFile.open(output_name.c_str());
+        outFile << output.rdbuf();
+        outFile.close();
     }else{
-        cout << "<html><body><h1>No input file given.</h1></body></html>";
-    }
+        output << "<html><body><h1>No input file given.</h1></body></html>";
+    } 
+   
     return 0;
 }
 
