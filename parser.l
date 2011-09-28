@@ -6,11 +6,12 @@
     #include <list>
     #include <fstream>
     #include <streambuf>
-    #include <unordered_map> //NOTE:  This requires either the -std=c++0x or -std=gnu0x compiler options!
+    #include <map>
+    #include <set>
     using namespace std;
 
-    unordered_map<string, string> var_list;
-    list<string> key_list;
+    map<string, set<int> > var_list;
+    set<string> key_list;
 %}
 
 operator ("="|"+"|"-"|"/"|"*"|"<="|">="|"<"|">"|"("|")"|"{"|"}"|";")
@@ -20,16 +21,14 @@ number [\-+]?[0-9]+(.[0-9]+)?
     int nline = 0;
 %}
 ^.*\n                   { nline++; cout << "<tr><td class=\"line_number\"><a name=\"" << nline << "\">" << nline << "</a></td><td>"; REJECT; }
-'([^']|'')*'             { cout << "<span class=\"STRINGLITERAL\">" << yytext << "</span>"; }
+'([^']|'')*'            { cout << "<span class=\"STRINGLITERAL\">" << yytext << "</span>"; }
 "/*"[^"*/"]*"*/"        { cout << "<span class=\"COMMENT\">" << yytext << "</span>"; }
 "//"[^\n]*              { cout << "<span class=\"COMMENT\">" << yytext << "</span>"; }
 {number}                { cout << "<span class=\"NUMBER\">" << yytext << "</span>"; }
 [a-zA-Z][a-zA-Z0-9]*    { 
                             cout << "<span class=\"IDENTIFIER\">" << yytext << "</span>";
-                            stringstream line;
-                            line << var_list[yytext] << "<a href=\"#" << nline << "\">" << nline << ",</a> ";
-                            var_list[yytext] = line.str();
-                            key_list.push_back(yytext);
+                            var_list[yytext].insert(nline);
+                            key_list.insert(yytext);
                         }
 {operator}              { cout << "<span class=\"OPERATOR\">" << yytext << "</span>"; }
 [ ]                     { cout << "&nbsp;"; }
@@ -78,13 +77,14 @@ int main(int argc, char *argv[]){
         cout << "    <table class=\"var_list\">" << endl;
         cout << "      <tr><th>Variable</th><th>Line Numbers</th></tr>" << endl;
         
-        key_list.sort();
-        key_list.unique();
-
-        for( list<string>::iterator iter = key_list.begin(); iter != key_list.end(); iter++ ){
+        for( map<string,set<int> >::iterator iter = var_list.begin(); iter != var_list.end(); iter++ ){
             cout << "      <tr>" << endl;
-            cout << "        <td>" << *iter << "</td>" << endl;
-            cout << "        <td>" << var_list[*iter] << "</td>" << endl;
+            cout << "        <td>" << iter->first << "</td>" << endl;
+            cout << "        <td>";
+            for(set<int>::iterator j = iter->second.begin(); j != iter->second.end(); j++){
+                cout << "<a href=\"#" << *j << "\">" << *j << ",</a> ";
+            }
+            cout << "</td>" << endl;
             cout << "      </tr>" << endl;
         }
         cout << "    </table>" << endl;

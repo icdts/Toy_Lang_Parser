@@ -559,12 +559,13 @@ char *yytext_ptr;
     #include <list>
     #include <fstream>
     #include <streambuf>
-    #include <unordered_map> //NOTE:  This requires either the -std=c++0x or -std=gnu0x compiler options!
+    #include <map>
+    #include <set>
     using namespace std;
 
-    unordered_map<string, string> var_list;
-    list<string> key_list;
-#line 568 "lex.yy.c"
+    map<string, set<int> > var_list;
+    set<string> key_list;
+#line 569 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -749,12 +750,12 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
     
-#line 18 "parser.l"
+#line 19 "parser.l"
 
 
     int nline = 0;
 
-#line 758 "lex.yy.c"
+#line 759 "lex.yy.c"
 
 	if ( !(yy_init) )
 		{
@@ -860,69 +861,67 @@ do_action:	/* This label is used only to access EOF actions. */
 case 1:
 /* rule 1 can match eol */
 YY_RULE_SETUP
-#line 22 "parser.l"
+#line 23 "parser.l"
 { nline++; cout << "<tr><td class=\"line_number\"><a name=\"" << nline << "\">" << nline << "</a></td><td>"; REJECT; }
 	YY_BREAK
 case 2:
 /* rule 2 can match eol */
 YY_RULE_SETUP
-#line 23 "parser.l"
+#line 24 "parser.l"
 { cout << "<span class=\"STRINGLITERAL\">" << yytext << "</span>"; }
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 24 "parser.l"
+#line 25 "parser.l"
 { cout << "<span class=\"COMMENT\">" << yytext << "</span>"; }
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 25 "parser.l"
+#line 26 "parser.l"
 { cout << "<span class=\"COMMENT\">" << yytext << "</span>"; }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 26 "parser.l"
+#line 27 "parser.l"
 { cout << "<span class=\"NUMBER\">" << yytext << "</span>"; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 27 "parser.l"
+#line 28 "parser.l"
 { 
                             cout << "<span class=\"IDENTIFIER\">" << yytext << "</span>";
-                            stringstream line;
-                            line << var_list[yytext] << "<a href=\"#" << nline << "\">" << nline << ",</a> ";
-                            var_list[yytext] = line.str();
-                            key_list.push_back(yytext);
+                            var_list[yytext].insert(nline);
+                            key_list.insert(yytext);
                         }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 34 "parser.l"
+#line 33 "parser.l"
 { cout << "<span class=\"OPERATOR\">" << yytext << "</span>"; }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 35 "parser.l"
+#line 34 "parser.l"
 { cout << "&nbsp;"; }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 36 "parser.l"
+#line 35 "parser.l"
 { cout << "&nbsp;&nbsp;&nbsp;&nbsp;"; }
 	YY_BREAK
 case 10:
 /* rule 10 can match eol */
 YY_RULE_SETUP
-#line 37 "parser.l"
+#line 36 "parser.l"
 { cout << "</td></tr>" << endl; }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 38 "parser.l"
+#line 37 "parser.l"
 ECHO;
 	YY_BREAK
-#line 926 "lex.yy.c"
+#line 925 "lex.yy.c"
 			case YY_STATE_EOF(INITIAL):
 				yyterminate();
 
@@ -1908,7 +1907,7 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 38 "parser.l"
+#line 37 "parser.l"
 
 
 
@@ -1953,13 +1952,14 @@ int main(int argc, char *argv[]){
         cout << "    <table class=\"var_list\">" << endl;
         cout << "      <tr><th>Variable</th><th>Line Numbers</th></tr>" << endl;
         
-        key_list.sort();
-        key_list.unique();
-
-        for( list<string>::iterator iter = key_list.begin(); iter != key_list.end(); iter++ ){
+        for( map<string,set<int> >::iterator iter = var_list.begin(); iter != var_list.end(); iter++ ){
             cout << "      <tr>" << endl;
-            cout << "        <td>" << *iter << "</td>" << endl;
-            cout << "        <td>" << var_list[*iter] << "</td>" << endl;
+            cout << "        <td>" << iter->first << "</td>" << endl;
+            cout << "        <td>";
+            for(set<int>::iterator j = iter->second.begin(); j != iter->second.end(); j++){
+                cout << "<a href=\"#" << *j << "\">" << *j << ",</a> " << ",";
+            }
+            cout << "</td>" << endl;
             cout << "      </tr>" << endl;
         }
         cout << "    </table>" << endl;
